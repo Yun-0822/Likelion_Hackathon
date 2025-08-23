@@ -53,9 +53,9 @@ services:
     volumes:
       - certbot-www:/var/www/certbot
       - letsencrypt:/etc/letsencrypt
-    entrypoint: ["sh", "-c"]
-    # ★ 최초 인증서 발급 전에는 아래 command를 발급용으로 바꿔서 1회 실행(아래 단계 참고)
-    command: ["echo", "Run certbot once to issue certs"]
+#    entrypoint: ["sh", "-c"]
+#    # ★ 최초 인증서 발급 전에는 아래 command를 발급용으로 바꿔서 1회 실행(아래 단계 참고)
+#    command: ["echo", "Run certbot once to issue certs"]
 
 volumes:
   db-data:
