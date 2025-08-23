@@ -1,17 +1,17 @@
-server:
-  port: ${PORT:8080}
-
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${MYSQLUSER}
-    password: ${MYSQLPASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+
+
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: false
 
 openai:
