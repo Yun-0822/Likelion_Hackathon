@@ -25,10 +25,39 @@ services:
     restart: always
     depends_on:
       - db
-    ports:
-      - "8084:8080"
+    # 외부 노출 불필요하면 아래 ports 주석 처리하고 내부 네트워크만 노출(expose) 사용 권장
+    # ports:
+    #   - "8084:8080"
+    expose:
+      - "8080"
     env_file:
       - .env
 
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: likelion-nginx
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - certbot-www:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt:ro
+    restart: always
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: likelion-certbot
+    volumes:
+      - certbot-www:/var/www/certbot
+      - letsencrypt:/etc/letsencrypt
+#    entrypoint: ["sh", "-c"]
+#    # ★ 최초 인증서 발급 전에는 아래 command를 발급용으로 바꿔서 1회 실행(아래 단계 참고)
+#    command: ["echo", "Run certbot once to issue certs"]
+
 volumes:
   db-data:
+  certbot-www:
+  letsencrypt:
